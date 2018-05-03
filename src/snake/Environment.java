@@ -50,16 +50,19 @@ public class Environment {
     }
 
     public void simulate() {
-        // TODO
-
-        fireUpdatedEnvironment();
+        for (int i = 0; i < maxIterations; i++) {
+            for (SnakeAgent agent : agents) {
+                agent.act(this);
+                fireUpdatedEnvironment();
+            }
+        }
     }
 
     public int getSize() {
         return grid.length;
     }
 
-        public Cell getNorthCell(Cell cell) {
+    public Cell getNorthCell(Cell cell) {
         if (cell.getLine() > 0) {
             return grid[cell.getLine() - 1][cell.getColumn()];
         }

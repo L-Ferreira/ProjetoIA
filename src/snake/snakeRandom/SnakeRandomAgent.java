@@ -13,7 +13,15 @@ public class SnakeRandomAgent extends SnakeAgent {
 
     @Override
     protected Action decide(Perception perception) {
-        // TODO
-        return null;
+        if (perception.getN() != null && !perception.getN().hasAgent()&& !visitedCells.contains(perception.getN())) {
+            return Action.NORTH;
+        }
+        if (perception.getE() != null && !perception.getE().hasAgent()&& !visitedCells.contains(perception.getE())) {
+            return Action.EAST;
+        }
+        if (perception.getS() != null && !perception.getS().hasAgent()&& !visitedCells.contains(perception.getS())) {
+            return Action.SOUTH;
+        }
+        return Action.WEST;
     }
 }
