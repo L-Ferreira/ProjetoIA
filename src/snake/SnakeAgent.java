@@ -1,12 +1,12 @@
 package snake;
 
 import java.awt.Color;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public abstract class SnakeAgent {
 
     protected Cell cell;
-    public ArrayList<Cell> visitedCells = new ArrayList<>();
+    public LinkedList<Cell> visitedCells;
     protected Color color;
 
     public SnakeAgent(Cell cell, Color color) {
