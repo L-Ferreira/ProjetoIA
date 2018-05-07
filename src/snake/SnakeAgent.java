@@ -1,18 +1,31 @@
 package snake;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public abstract class SnakeAgent {
 
     protected Cell cell;
     public LinkedList<Cell> visitedCells;
+    public LinkedList<Integer> numVisitsCell;
+    private LinkedList<Cell> tail;
+    private Boolean killed;
     protected Color color;
+    protected Environment environment;
 
     public SnakeAgent(Cell cell, Color color) {
         this.cell = cell;
         if(cell != null){this.cell.setAgent(this);}
         this.color = color;
+        this.visitedCells=new LinkedList<>();
+        this.numVisitsCell=new LinkedList<>();
+        this.tail=new LinkedList<>();
+        this.cell.setVisit();
+        visitedCells.add(this.cell);
+        numVisitsCell.add(1);
+        killed=false;
+        this.environment=environment;
     }
 
     public void act(Environment environment) {
@@ -34,7 +47,6 @@ public abstract class SnakeAgent {
     {
         Cell nextCell = null;
 
-
         if (action == Action.NORTH && cell.getLine() != 0) {
             nextCell = environment.getNorthCell(cell);
         } else if (action == Action.SOUTH && cell.getLine() != environment.getNumLines() - 1) {
@@ -45,8 +57,27 @@ public abstract class SnakeAgent {
             nextCell = environment.getEastCell(cell);
         }
 
-        if (nextCell != null && !nextCell.hasAgent()) {
+        if (nextCell != null && !nextCell.hasAgent() && !nextCell.hasTail()) {
+
+            if(nextCell.hastFood()){
+                this.tail.add(cell);
+                this.cell.setTail(true);
+                environment.placeFood();
+
+            }
+
+            if(this.tail.size()>0) {
+                Cell c = this.tail.getLast();
+                this.tail.remove(c);
+                c.setTail(false);
+                this.tail.addFirst(this.cell);
+                this.cell.setTail(true);
+            }
             setCell(nextCell);
+        }
+        if(nextCell.hasTail()) {
+            killed = true;
+            System.out.println("A cobra morreu");
         }
     }
 
@@ -60,7 +91,14 @@ public abstract class SnakeAgent {
         if(this.cell != null){this.cell.setAgent(null);}
         this.cell = newCell;
         if(newCell != null){newCell.setAgent(this);}
-        visitedCells.add(this.cell);
+        this.cell.setVisit();
+        int pos=visitedCells.indexOf(this.cell);
+        if(pos==-1){
+            visitedCells.add(this.cell);
+            numVisitsCell.add(1);
+        }else{
+            numVisitsCell.set(pos, numVisitsCell.get(pos)+1);
+        }
     }    
     
     public Color getColor() {

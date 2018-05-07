@@ -27,6 +27,8 @@ public class Environment {
                 grid[i][j] = new Cell(i, j);
             }
         }
+        // place food
+        placeFood();
 
         this.agents = new ArrayList<>();
         this.random = new Random();
@@ -45,8 +47,16 @@ public class Environment {
         agents.add(snakeRandomAgent);
     }
 
-    private void placeFood() {
-        // TODO
+    protected void placeFood() {
+        Cell cell=null;
+        Random r = new Random();
+
+        do{
+            cell=getCell(r.nextInt(getNumLines()), r.nextInt(getNumColumns()));
+            System.out.println("linha "+cell.getLine()+ " coluna "+cell.getColumn()+ " agent:"+cell.hasAgent()+" tail:"+cell.hasTail());
+        }while(cell.hasAgent() ||  cell.hasTail() || cell.hastFood());
+        cell.setFood(new Food(cell));
+        
     }
 
     public void simulate() {
@@ -123,5 +133,9 @@ public class Environment {
         for (EnvironmentListener listener : listeners) {
             listener.environmentUpdated();
         }
+    }
+
+    public Food getFood() {
+        return food;
     }
 }

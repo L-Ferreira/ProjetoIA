@@ -8,10 +8,14 @@ public class Cell {
     private final int line, column;
     private SnakeAgent agent;
     private Food food;
+    private boolean visited;
+    private boolean tail;
 
     public Cell(int line, int column) {
         this.line = line;
         this.column = column;
+        this.visited=false;
+        this.tail=false;
     }
 
     public int getLine() {
@@ -45,8 +49,22 @@ public class Cell {
             return agent.getColor();
         } else if (hastFood()) {
             return food.getColor();
+        } else if(tail){
+            return Color.PINK;
         } else {
             return Cell.COLOR;
         }
+    }
+
+    public void setVisit() {
+        this.visited=true;
+    }
+
+    public void setTail(boolean tail) {
+        this.tail = tail;
+    }
+
+    public boolean hasTail() {
+        return tail;
     }
 }
