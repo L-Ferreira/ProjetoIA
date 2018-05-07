@@ -63,7 +63,6 @@ public abstract class SnakeAgent {
                 this.tail.add(cell);
                 this.cell.setTail(true);
                 environment.placeFood();
-
             }
 
             if(this.tail.size()>0) {
@@ -91,6 +90,9 @@ public abstract class SnakeAgent {
         if(this.cell != null){this.cell.setAgent(null);}
         this.cell = newCell;
         if(newCell != null){newCell.setAgent(this);}
+        if(this.cell.hastFood()) {
+            this.cell.setFood(null);
+        }
         this.cell.setVisit();
         int pos=visitedCells.indexOf(this.cell);
         if(pos==-1){

@@ -27,18 +27,19 @@ public class Environment {
                 grid[i][j] = new Cell(i, j);
             }
         }
-        // place food
-        placeFood();
 
         this.agents = new ArrayList<>();
         this.random = new Random();
+
+        // place food
+        placeFood();
     }
 
     public void initialize(int seed) {
         random.setSeed(seed);
 
         placeAgents();
-        placeFood();
+
     }
 
     // TODO MODIFY TO PLACE ADHOC OR AI SNAKE AGENTS
@@ -53,11 +54,13 @@ public class Environment {
 
         do{
             cell=getCell(r.nextInt(getNumLines()), r.nextInt(getNumColumns()));
-            System.out.println("linha "+cell.getLine()+ " coluna "+cell.getColumn()+ " agent:"+cell.hasAgent()+" tail:"+cell.hasTail());
         }while(cell.hasAgent() ||  cell.hasTail() || cell.hastFood());
-        cell.setFood(new Food(cell));
-        
+        food = new Food(cell);
+
+
     }
+
+
 
     public void simulate() {
         for (int i = 0; i < maxIterations; i++) {
