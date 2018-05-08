@@ -1,5 +1,6 @@
 package snake;
 
+import snake.snakeAdhoc.SnakeAdhocAgent;
 import snake.snakeRandom.SnakeRandomAgent;
 
 import java.awt.Color;
@@ -31,21 +32,23 @@ public class Environment {
         this.agents = new ArrayList<>();
         this.random = new Random();
 
-        // place food
-        placeFood();
+
     }
 
     public void initialize(int seed) {
         random.setSeed(seed);
-
+        // place food
+        placeFood();
         placeAgents();
 
     }
 
     // TODO MODIFY TO PLACE ADHOC OR AI SNAKE AGENTS
     private void placeAgents() {
-        SnakeRandomAgent snakeRandomAgent = new SnakeRandomAgent(new Cell(random.nextInt(grid.length), random.nextInt(grid.length)), Color.GREEN);
-        agents.add(snakeRandomAgent);
+//        SnakeRandomAgent snakeRandomAgent = new SnakeRandomAgent(new Cell(random.nextInt(grid.length), random.nextInt(grid.length)), Color.GREEN);
+//        agents.add(snakeRandomAgent);
+        SnakeAdhocAgent snakeAdhocAgent = new SnakeAdhocAgent(new Cell(random.nextInt(grid.length), random.nextInt(grid.length)), Color.blue);
+        agents.add(snakeAdhocAgent);
     }
 
     protected void placeFood() {
@@ -56,7 +59,7 @@ public class Environment {
             cell=getCell(r.nextInt(getNumLines()), r.nextInt(getNumColumns()));
         }while(cell.hasAgent() ||  cell.hasTail() || cell.hastFood());
         food = new Food(cell);
-
+        food.setCell(cell);
 
     }
 
@@ -138,7 +141,7 @@ public class Environment {
         }
     }
 
-    public Food getFood() {
-        return food;
+    public Cell getFood() {
+        return food.getCell();
     }
 }

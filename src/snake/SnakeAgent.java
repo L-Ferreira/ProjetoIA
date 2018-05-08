@@ -12,7 +12,7 @@ public abstract class SnakeAgent {
     private LinkedList<Cell> tail;
     private Boolean killed;
     protected Color color;
-    protected Environment environment;
+    public Environment environment;
 
     public SnakeAgent(Cell cell, Color color) {
         this.cell = cell;
@@ -25,13 +25,14 @@ public abstract class SnakeAgent {
         visitedCells.add(this.cell);
         numVisitsCell.add(1);
         killed=false;
-        this.environment=environment;
     }
 
     public void act(Environment environment) {
+        this.environment=environment;
         Perception perception = buildPerception(environment);
         Action action = decide(perception);
         execute(action, environment);
+
     }
 
 
