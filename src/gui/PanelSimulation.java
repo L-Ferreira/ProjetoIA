@@ -25,6 +25,7 @@ public class PanelSimulation extends JPanel implements EnvironmentListener {
     private Image image;
     JPanel environmentPanel = new JPanel();
     final JButton buttonSimulate = new JButton("Simulate");
+    SwingWorker worker;
 
     public PanelSimulation(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -49,15 +50,22 @@ public class PanelSimulation extends JPanel implements EnvironmentListener {
     }
 
     public void jButtonSimulate_actionPerformed(ActionEvent e) {
+        if(worker != null){
+            worker.cancel(true);
+            environment.removeEnvironmentListener(this);
+            worker =null;
+        }
 
         environment = mainFrame.getProblem().getEnvironment();
         environment.addEnvironmentListener(this);
+
+        mainFrame.setSnakeType();
 
         buildImage(environment);
 
         final PanelSimulation simulationPanel = this;
 
-        SwingWorker worker = new SwingWorker<Void, Void>() {
+        worker = new SwingWorker<Void, Void>() {
             @Override
             public Void doInBackground() {
                 int environmentSimulations = mainFrame.getProblem().getNumEvironmentSimulations();
@@ -114,7 +122,7 @@ public class PanelSimulation extends JPanel implements EnvironmentListener {
         g.drawImage(image, GRID_TO_PANEL_GAP, GRID_TO_PANEL_GAP, null);
 
         try {
-            Thread.sleep(100);
+            Thread.sleep(50);
         } catch (InterruptedException ignore) {
         }
     }

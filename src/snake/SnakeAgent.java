@@ -58,27 +58,29 @@ public abstract class SnakeAgent {
             nextCell = environment.getEastCell(cell);
         }
 
-        if (nextCell != null && !nextCell.hasAgent() && !nextCell.hasTail()) {
-
-            if(nextCell.hastFood()){
-                this.tail.add(cell);
-                this.cell.setTail(true);
-                environment.placeFood();
-            }
-
-            if(this.tail.size()>0) {
-                Cell c = this.tail.getLast();
-                this.tail.remove(c);
-                c.setTail(false);
-                this.tail.addFirst(this.cell);
-                this.cell.setTail(true);
-            }
-            setCell(nextCell);
-        }
-        if(nextCell.hasTail()) {
+        if(nextCell == null || nextCell.hasAgent() || nextCell.hasTail()) {
             killed = true;
-            System.out.println("A cobra morreu");
+            return;
         }
+
+
+
+        if(nextCell.hastFood()){
+            this.tail.add(cell);
+            this.cell.setTail(true);
+            environment.placeFood();
+        }
+
+        if(this.tail.size()>0) {
+            Cell c = this.tail.getLast();
+            this.tail.remove(c);
+            c.setTail(false);
+            this.tail.addFirst(this.cell);
+            this.cell.setTail(true);
+        }
+        setCell(nextCell);
+
+
     }
 
     protected abstract Action decide(Perception perception);
@@ -106,5 +108,13 @@ public abstract class SnakeAgent {
     
     public Color getColor() {
         return color;
+    }
+
+    public LinkedList<Cell> getTail() {
+        return tail;
+    }
+
+    public boolean isDead() {
+        return killed;
     }
 }

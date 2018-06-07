@@ -180,6 +180,8 @@ public class MainFrame extends JFrame implements GAListener {
             seriesBestIndividual.clear();
             seriesAverage.clear();
 
+            setSnakeType();
+
             Random random = new Random(Integer.parseInt(panelParameters.textFieldSeed.getText()));
             ga = new GeneticAlgorithm<>(
                     Integer.parseInt(panelParameters.textFieldN.getText()),
@@ -308,6 +310,16 @@ public class MainFrame extends JFrame implements GAListener {
         buttonExperiments.setEnabled(experiments);
         buttonRunExperiments.setEnabled(runExperiments);
         simulationPanel.setJButtonSimulateEnabled(runEnvironment);
+    }
+
+    public void setSnakeType() {
+        int type = panelParameters.getSnakeType();
+        problem.getEnvironment().setSnakeType(type);
+        problem.setSnakeType(type);
+        if(type > 1 && bestInRun != null){
+            problem.getEnvironment().setWeights(bestInRun.getGenome());
+        }
+
     }
 }
 

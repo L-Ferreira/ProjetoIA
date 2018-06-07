@@ -1,11 +1,14 @@
 package snake.snakeAI.nn;
 
-import snake.*;
+import snake.Action;
+import snake.Cell;
+import snake.Perception;
+import snake.SnakeAgent;
 
-import java.awt.Color;
+import java.awt.*;
 
-public class SnakeAIAgent extends SnakeAgent {
-   
+public class SnakeAIAgent2 extends SnakeAgent {
+
     final private int inputLayerSize;
     final private int hiddenLayerSize;
     final private int outputLayerSize;
@@ -31,7 +34,7 @@ public class SnakeAIAgent extends SnakeAgent {
      */
     final private double[] output;
 
-    public SnakeAIAgent(
+    public SnakeAIAgent2(
             Cell cell,
             int inputLayerSize,
             int hiddenLayerSize,
@@ -102,7 +105,7 @@ public class SnakeAIAgent extends SnakeAgent {
 
 
         for(int i = 0;i < inputLayerSize -1; i++){
-            inputs[i]=-1;
+            inputs[i]=0;
         }
 
         if(perception.getS()==null || perception.getS().hasTail() || perception.getS().hasAgent()){
@@ -119,19 +122,19 @@ public class SnakeAIAgent extends SnakeAgent {
         }
 
         if(cell.getLine()<environment.getFood().getLine()) {
-            inputs[4]=1;
+            inputs[4]= Math.abs(cell.getLine()-environment.getFood().getLine());
         }
 
         if(cell.getLine()>environment.getFood().getLine()) {
-            inputs[5]=1;
+            inputs[5]=-Math.abs(cell.getLine()-environment.getFood().getLine());
         }
 
         if(cell.getColumn()<environment.getFood().getColumn()) {
-            inputs[6]=1;
+            inputs[6]=Math.abs(cell.getColumn()-environment.getFood().getColumn());
         }
 
         if(cell.getColumn()>environment.getFood().getColumn()) {
-            inputs[7]=1;
+            inputs[7]=-Math.abs(cell.getColumn()-environment.getFood().getColumn());
         }
 
         forwardPropagation();

@@ -9,9 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class SnakeProblem implements Problem<SnakeIndividual> {
-    private static final int NUM_NN_INPUTS = 100; // TODO THIS IS A FAKE NUMBER; PLEASE ADAPT TO YOUR CASE
-    private static final int NUM_NN_OUTPUTS = 100; // TODO THIS IS A FAKE NUMBER; PLEASE ADAPT TO YOUR CASE
-    private static final int GENOME_SIZE = 100; // TODO THIS IS A FAKE NUMBER; PLEASE ADAPT TO YOUR CASE
+    private static final int NUM_NN_INPUTS = 9; // TODO THIS IS A FAKE NUMBER; PLEASE ADAPT TO YOUR CASE
+    private static final int NUM_NN_OUTPUTS = 4; // TODO THIS IS A FAKE NUMBER; PLEASE ADAPT TO YOUR CASE
+    private static final int GENOME_SIZE = 108; // TODO THIS IS A FAKE NUMBER; PLEASE ADAPT TO YOUR CASE
 
     final private int environmentSize;
     final private int maxIterations;
@@ -21,6 +21,8 @@ public class SnakeProblem implements Problem<SnakeIndividual> {
     final private int numEnvironmentRuns;
 
     final private Environment environment;
+
+    private int snakeType;
 
     public SnakeProblem(
             int environmentSize,
@@ -41,7 +43,12 @@ public class SnakeProblem implements Problem<SnakeIndividual> {
 
     @Override
     public SnakeIndividual getNewIndividual() {
-        return new SnakeIndividual(this, GENOME_SIZE /*TODO?*/);
+        switch (snakeType){
+            default:
+                return new SnakeIndividual(this, GENOME_SIZE /*TODO?*/);
+            case 5:
+                return new SnakeIndividual(this, GENOME_SIZE*2 /*TODO?*/);
+        }
     }
 
     public Environment getEnvironment() {
@@ -107,4 +114,7 @@ public class SnakeProblem implements Problem<SnakeIndividual> {
         return sb.toString();
     }
 
+    public void setSnakeType(int snakeType) {
+        this.snakeType = snakeType;
+    }
 }

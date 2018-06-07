@@ -7,6 +7,7 @@ public abstract class Individual<P extends Problem, I extends Individual> implem
 
     public Individual(P problem) {
         this.problem = problem;
+        this.fitness = 0;
     }
 
     public Individual(Individual<P, I> original) {

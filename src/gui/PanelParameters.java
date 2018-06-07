@@ -26,6 +26,13 @@ public class PanelParameters extends PanelAtributesValue {
     public static final String PROB_RECOMBINATION = "0.7";
     public static final String PROB_MUTATION = "0.7";
 
+    public static final int RANDOM = 0;
+    public static final int ADHOC = 1;
+    public static final int AI1 = 2;
+    public static final int AI2 = 3;
+    public static final int HOMOGENEA = 4;
+    public static final int HETEROGENEA = 5;
+
     JTextField textFieldSeed = new JTextField(SEED, TEXT_FIELD_LENGHT);
     JTextField textFieldN = new JTextField(POPULATION_SIZE, TEXT_FIELD_LENGHT);
     JTextField textFieldGenerations = new JTextField(GENERATIONS, TEXT_FIELD_LENGHT);
@@ -37,6 +44,9 @@ public class PanelParameters extends PanelAtributesValue {
     JTextField textFieldProbRecombination = new JTextField(PROB_RECOMBINATION, TEXT_FIELD_LENGHT);
     JTextField textFieldProbMutation = new JTextField(PROB_MUTATION, TEXT_FIELD_LENGHT);
     //TODO - MORE PARAMETERS?
+
+    String[] snakeType = {"Random", "Ad-hoc","AI1","AI2","Homogeneas","Heterogeneas"};
+    JComboBox comboBoxSnakeType = new JComboBox(snakeType);
 
     public PanelParameters() {
         title = "Genetic algorithm parameters";
@@ -71,7 +81,32 @@ public class PanelParameters extends PanelAtributesValue {
         valueComponents.add(textFieldProbMutation);
 
         //TODO - MORE PARAMETERS?
+
+        labels.add(new JLabel("Snake Type: "));
+        valueComponents.add(comboBoxSnakeType);
+
+
+
         configure();
+    }
+
+    public int getSnakeType() {
+        switch (comboBoxSnakeType.getSelectedIndex()) {
+
+            case 1:
+                return ADHOC;
+            case 2:
+                return AI1;
+            case 3:
+                return AI2;
+            case 4:
+                return HOMOGENEA;
+            case 5:
+                return HETEROGENEA;
+            default:
+                return RANDOM;
+        }
+
     }
 
     public void actionPerformedSelectionMethods(ActionEvent e) {
@@ -110,7 +145,7 @@ public class PanelParameters extends PanelAtributesValue {
     public Mutation<SnakeIndividual> getMutationMethod() {
         double mutationProbability = Double.parseDouble(textFieldProbMutation.getText());
         //TODO
-        return new MutationMUTATION_NAME<>(mutationProbability/*TODO?*/);
+        return new MutationMy<>(mutationProbability/*TODO?*/);
     }
 }
 
